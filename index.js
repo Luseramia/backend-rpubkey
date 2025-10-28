@@ -9,7 +9,7 @@ const path = require('path');
 const VAULT_TOKEN = fs.readFileSync("/vault/secrets/token", "utf8").trim();
 
 // const VAULT_TOKEN = process.env.VAULT_TOKEN;
-const VAULT_ADDR = "vault.vault.svc.cluster.local:8200";
+const VAULT_ADDR = "http://vault.vault.svc.cluster.local:8200";
 const app = express();
 app.use(
   cors({
