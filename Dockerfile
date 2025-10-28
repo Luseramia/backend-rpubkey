@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 3000
 
 # รันแอป (Bun รองรับ TypeScript โดยตรง ไม่ต้อง build)
-CMD ["bun", "run", "src/index.ts"]
+CMD ["bun", "run", "src/index.js"]
