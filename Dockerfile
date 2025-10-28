@@ -1,8 +1,20 @@
-FROM docker pull node:alpine
+# ใช้ Bun official image
+FROM oven/bun:latest
+
+# ตั้ง working directory
 WORKDIR /app
-COPY package.json ./
-COPY bun.lockb ./
-COPY src ./
-RUN npm install
+
+# คัดลอกไฟล์ dependency ก่อน (เพื่อให้ Docker cache การติดตั้งได้)
+COPY bun.lockb package.json ./
+
+# ติดตั้ง dependencies
+RUN bun install
+
+# คัดลอกซอร์สโค้ดทั้งหมด
+COPY . .
+
+# เปิดพอร์ต 3000
 EXPOSE 3000
-CMD ["node","index.ts"]
+
+# รันแอป (Bun รองรับ TypeScript โดยตรง ไม่ต้อง build)
+CMD ["bun", "run", "src/index.ts"]
