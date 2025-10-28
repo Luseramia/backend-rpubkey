@@ -5,7 +5,7 @@ FROM oven/bun:latest
 WORKDIR /app
 
 # คัดลอกไฟล์ dependency ก่อน (เพื่อให้ Docker cache การติดตั้งได้)
-COPY bun.lockb package.json ./
+COPY  package.json ./
 
 # ติดตั้ง dependencies
 RUN bun install
