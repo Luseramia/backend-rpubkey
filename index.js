@@ -18,9 +18,11 @@ app.use(
 
       // Allow requests from nginx container
       const allowedOrigins = [
-        "https://nginx", // nginx container name
-        "http://localhost:5173",
-        "https://127.0.0.1",
+        "https://tarchunk.win",
+
+        // "https://nginx", // nginx container name
+        // "http://localhost:5173",
+        // "https://127.0.0.1",
       ];
 
       if (!origin) return callback(null, true);
