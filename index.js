@@ -66,7 +66,7 @@ app.post("/api/vault/sign/pubkey", upload.single("file"), async (req, res) => {
     console.log(pubkey);
 
     const parseData = JSON.parse(req.body.data);
-    const totpRes = await fetch(`${VAULT_ADDR}/v1/totp/code/ssh`, {
+    const totpRes = await fetch(`${VAULT_ADDR}/v1/totp/code/master-node`, {
       headers: {
         "X-Vault-Token": VAULT_TOKEN,
       },
