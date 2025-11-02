@@ -5,7 +5,7 @@ const cors = require("cors");
 const multer = require("multer");
 const upload = multer();
 const fs = require("fs");
-const path = require('path');
+const path = require("path");
 const VAULT_TOKEN = fs.readFileSync("/vault/secrets/token", "utf8").trim();
 
 // const VAULT_TOKEN = process.env.VAULT_TOKEN;
@@ -14,6 +14,8 @@ const app = express();
 app.use(
   cors({
     origin: function (origin, callback) {
+      console.log(origin);
+
       // Allow requests from nginx container
       const allowedOrigins = [
         "https://nginx", // nginx container name
@@ -33,15 +35,20 @@ app.use(
   })
 );
 
-
-app.use('/api/downloads', express.static(path.join(__dirname, 'downloads'), {
-  setHeaders: (res, filePath) => {
-    if (path.extname(filePath) === '.exe') {
-      res.setHeader('Content-Type', 'application/octet-stream');
-      res.setHeader('Content-Disposition', `attachment; filename="${path.basename(filePath)}"`);
-    }
-  }
-}));
+app.use(
+  "/api/downloads",
+  express.static(path.join(__dirname, "downloads"), {
+    setHeaders: (res, filePath) => {
+      if (path.extname(filePath) === ".exe") {
+        res.setHeader("Content-Type", "application/octet-stream");
+        res.setHeader(
+          "Content-Disposition",
+          `attachment; filename="${path.basename(filePath)}"`
+        );
+      }
+    },
+  })
+);
 app.get("/api/", (req, res) => {
   res.send("Hello World");
 });
@@ -110,27 +117,26 @@ app.post("/api/vault/sign/pubkey", upload.single("file"), async (req, res) => {
     return res.send("Internal error", { status: 500 });
   }
 });
-app.get('/api/download/clientssh', (req, res) => {
-  const filePath = path.join(__dirname, 'downloads', 'clientssh.exe');
-  
+app.get("/api/download/clientssh", (req, res) => {
+  const filePath = path.join(__dirname, "downloads", "clientssh.exe");
+
   // Check if file exists
   if (!fs.existsSync(filePath)) {
-    return res.status(404).json({ error: 'File not found' });
+    return res.status(404).json({ error: "File not found" });
   }
-  
-  
+
   // Set headers for download
-  res.setHeader('Content-Type', 'application/octet-stream');
-  res.setHeader('Content-Disposition', `attachment; filename="clientssh.exe"`);
-  
+  res.setHeader("Content-Type", "application/octet-stream");
+  res.setHeader("Content-Disposition", `attachment; filename="clientssh.exe"`);
+
   // Stream the file
   const fileStream = fs.createReadStream(filePath);
   fileStream.pipe(res);
-  
-  fileStream.on('error', (error) => {
-    console.error('Error streaming file:', error);
+
+  fileStream.on("error", (error) => {
+    console.error("Error streaming file:", error);
     if (!res.headersSent) {
-      res.status(500).json({ error: 'Error streaming file' });
+      res.status(500).json({ error: "Error streaming file" });
     }
   });
 });
