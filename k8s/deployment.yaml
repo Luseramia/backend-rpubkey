@@ -29,7 +29,7 @@ spec:
       dnsPolicy: ClusterFirst
       containers:
       - name: backend-rpubkey
-        image: registry.registry.svc.cluster.local:5000/backend-rpubkey:12
+        image: registry.registry.svc.cluster.local:5000/backend-rpubkey:13
         imagePullPolicy: Always
         resources:
           requests:
