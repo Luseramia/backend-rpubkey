@@ -1,5 +1,5 @@
 # ใช้ Bun official image
-FROM node:lts-alpine3.21
+FROM node:alpine3.24
 
 # ตั้ง working directory
 WORKDIR /app

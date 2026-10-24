@@ -14,8 +14,6 @@ const app = express();
 app.use(
   cors({
     origin: function (origin, callback) {
-      console.log(origin);
-
       // Allow requests from nginx container
       const allowedOrigins = [
         "https://tarchunk.win",
